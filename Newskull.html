@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Brain - Hacker Login</title>
+<style>
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body{
+    width: 100%;
+    height: 100%;
+    background: #020304;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+.login-card{
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    height: 100%;
+    max-height: 680px;
+    background: radial-gradient(ellipse at 50% 20%, #24282e 0%, #111419 32%, #07090c 72%, #030405 100%);
+    border: 1px solid #30343a;
+    border-radius: 18px;
+    box-shadow: 0 0 40px rgba(0,0,0,.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.top-light{
+    position: absolute;
+    top: 0;
+    left: 20%;
+    width: 60%;
+    height: 3px;
+    background: #fff;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 0 10px #fff, 0 0 20px rgba(255,255,255,.8);
+}
+
+.skull-area{
+    width: 100%;
+    height: 280px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.skull{
+    width: 240px;
+    height: 270px;
+    overflow: visible;
+}
+
+.bone{ fill: none; stroke: #f3f3f3; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+.bone-thin{ fill: none; stroke: #cfcfcf; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.cranium{ fill: #050607; stroke: #f2f2f2; stroke-width: 4; }
+.skull-base{ fill: #050607; stroke: #f2f2f2; stroke-width: 4; }
+.tooth{ fill: #eeeeee; stroke: #111; stroke-width: 1.7; }
+
+.eye{
+    fill: #baff00;
+    stroke: #efff9a;
+    stroke-width: 2;
+    filter: drop-shadow(0 0 4px #baff00) drop-shadow(0 0 10px #baff00);
+}
+
+.lower-jaw{
+    transform-box: fill-box;
+    transform-origin: center top;
+    animation: jawChatter 3.2s infinite linear;
+}
+
+@keyframes jawChatter{
+    0%{ transform: translateY(0); }
+    3%{ transform: translateY(8px); }
+    6%{ transform: translateY(0); }
+    9%{ transform: translateY(10px); }
+    12%{ transform: translateY(0); }
+    15%{ transform: translateY(8px); }
+    18%{ transform: translateY(0); }
+    21%{ transform: translateY(10px); }
+    24%{ transform: translateY(0); }
+    27%{ transform: translateY(8px); }
+    30%, 100%{ transform: translateY(0); }
+}
+
+.network{
+    color: #e6e6e6;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-align: center;
+    margin: 5px 0 15px 0;
+    text-shadow: 0 0 6px rgba(255,255,255,.25);
+}
+
+.login-form{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.input-box{
+    width: 100%;
+    height: 48px;
+    background: linear-gradient(180deg, #f3f3f3, #dcdcdc);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.4);
+    overflow: hidden;
+}
+
+.input-box input{
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #111;
+    padding: 0 15px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.input-box input::placeholder{
+    color: #666;
+    letter-spacing: 1px;
+}
+
+.password-container{
+    display: flex;
+    width: 100%;
+    height: 48px;
+}
+
+.password-container .input-box{
+    flex: 1;
+    border-radius: 6px 0 0 6px;
+}
+
+.login-button{
+    width: 52px;
+    height: 48px;
+    border: none;
+    background: linear-gradient(180deg, #eeeeee, #cfcfcf);
+    border-radius: 0 6px 6px 0;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,.4);
+}
+
+.lock{
+    position: relative;
+    width: 16px;
+    height: 15px;
+    background: #111;
+    border-radius: 2px;
+}
+
+.lock::before{
+    content: "";
+    position: absolute;
+    width: 9px;
+    height: 10px;
+    left: 3.5px;
+    top: -8px;
+    border: 2.5px solid #111;
+    border-bottom: none;
+    border-radius: 7px 7px 0 0;
+}
+
+.footer{
+    margin-top: auto;
+    padding-top: 15px;
+    color: #555;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-align: center;
+}
+</style>
+</head>
+<body>
+
+<div class="login-card">
+    <div class="top-light"></div>
+
+    <div class="skull-area">
+        <svg class="skull" viewBox="0 0 330 380" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <path id="textPath" d="M 28 50 Q 165 -6 302 50" fill="none"/>
+            </defs>
+
+            <!-- 'BRAIN' TEXT -->
+            <text fill="#ffffff" font-size="42" font-weight="900" font-family="Arial, sans-serif" letter-spacing="13" filter="drop-shadow(2px 2px 0px #555)">
+                <textPath href="#textPath" startOffset="55%" text-anchor="middle">BRAIN</textPath>
+            </text>
+
+            <!-- HEADPHONE OUTER ARC -->
+            <path class="bone" stroke-width="5" d="M45 145 L40 100 Q42 38 165 28 Q288 38 290 100 L285 145"/>
+            <path class="bone-thin" d="M55 104 Q75 53 165 47 Q255 53 275 104"/>
+            <path class="bone-thin" d="M70 82 Q110 45 165 43 Q220 45 260 82"/>
+
+            <!-- LEFT HEADPHONE -->
+            <path class="bone" stroke-width="5" d="M43 91 Q28 98 30 118 L34 174 Q35 198 58 203 L76 192 L70 104 Z"/>
+            <path class="bone-thin" d="M47 108 L52 181 L67 188"/>
+
+            <!-- RIGHT HEADPHONE -->
+            <path class="bone" stroke-width="5" d="M287 91 Q302 98 300 118 L296 174 Q295 198 272 203 L254 192 L260 104 Z"/>
+            <path class="bone-thin" d="M283 108 L278 181 L263 188"/>
+            <path class="bone-thin" d="M42 127 L59 113 M44 142 L62 127 M288 127 L271 113 M286 142 L268 127"/>
+
+            <!-- MAIN CRANIUM -->
+            <path class="cranium" d="M78 105 Q73 74 96 57 Q120 39 165 40 Q210 39 234 57 Q257 74 252 105 L247 168 Q242 198 225 216 Q200 238 165 239 Q130 238 105 216 Q88 198 83 168 Z"/>
+            <path class="bone-thin" d="M90 91 Q128 61 137 55"/>
+            <path class="bone-thin" d="M240 91 Q222 61 193 55"/>
+            <path class="bone-thin" d="M101 76 Q125 55 165 53 Q205 55 229 76"/>
+            <path class="bone-thin" d="M91 106 Q110 82 132 80"/>
+            <path class="bone-thin" d="M239 106 Q220 82 198 80"/>
+
+            <!-- POLISHED TACTICAL GOGGLES (FIXED TOP CURVES & EDGES) -->
+            <path class="eye" d="M82 106 Q105 92 132 92 Q152 97 165 103 Q168 97
+            198 92 Q235 92 238 106 Q242 132 205 125 Q185 115 165 105 Q125 115
+            105 125 Q98 132 82 106 Z"/>
+            <path d="M92 104 Q112 94 132 99" stroke="#202500" stroke-width="1.5" fill="none"/>
+            <path d="M238 104 Q218 94 198 99" stroke="#202500" stroke-width="2.5" fill="none"/>
+
+            <!-- NOSE -->
+            <path class="bone-thin" d="M142 112 L148 139 M188 112 L182 139"/>
+            <path d="M165 116 L150 146 Q165 154 180 146 Z" fill="#f5f5f5" stroke="#fff" stroke-width="2"/>
+            <line x1="165" y1="124" x2="165" y2="148" stroke="#111" stroke-width="3"/>
+
+            <!-- CHEEKBONES -->
+            <path class="bone" d="M78 133 Q84 165 102 184  195 132 195"/>
+            <path class="bone" d="M252 143 Q246 165 233 184  195 198 195"/>
+
+            <!-- UPPER JAW -->
+            <g class="upper-jaw">
+                <path class="skull-base" d="M78          Z"/>
+                <g class="upper-teeth">
+                    <path class="tooth" d="M102 168 L111 171 L111 187 L103 185 Z"/>
+                    <path class="tooth" d="M113 171 L123 174 L123 189 L114 187 Z"/>
+                    <path class="tooth" d="M125 174 L135 176 L135 191 L126 189 Z"/>
+                    <path class="tooth" d="M137 176 L148 178 L148 193 L138 192 Z"/>
+                    <path class="tooth" d="M150 178 L160 179 L160 194 L151 194 Z"/>
+                    <path class="tooth" d="M170 179 L180 178 L180 194 L171 194 Z"/>
+                    <path class="tooth" d="M182 178 L193 176 L193 193 L183 192 Z"/>
+                    <path class="tooth" d="M195 176 L205 174 L205 191 L196 189 Z"/>
+                    <path class="tooth" d="M207 174 L217 171 L217 189 L208 187 Z"/>
+                    <path class="tooth" d="M219 171 L228 168 L227 185 L220 185 Z"/>
+                </g>
+            </g>
+
+            <!-- LOWER JAW - PERFECTED SYMMETRY -->
+            <g class="lower-jaw">
+                <path class="skull-base" d="M90 184 Q94 210 128 228 Q144  Q206
+                233 231   175 195  Z"/>
+                <g class="lower-teeth">
+                    <path class="tooth" d="M104 188 L113 190 L113 204 L105 202 Z"/>
+                    <path class="tooth" d="M115 191 L124 193 L124 207 L116 205 Z"/>
+                    <path class="tooth" d="M126 193 L136 195 L136 209 L127 208 Z"/>
+                    <path class="tooth" d="M138 195 L148 196 L148 210 L139 209 Z"/>
+                    <path class="tooth" d="M150 196 L160 197 L160 211 L151 211 Z"/>
+                    <path class="tooth" d="M170 197 L180 196 L180 211 L171 211 Z"/>
+                    <path class="tooth" d="M182 196 L192 195 L192 210 L183 209 Z"/>
+                    <path class="tooth" d="M194 195 L204 193 L204 209 L195 208 Z"/>
+                    <path class="tooth" d="M206 193 L215 191 L215 207 L207 205 Z"/>
+                    <path class="tooth" d="M217 190 L226 188 L225 204 L218 202 Z"/>
+                </g>
+                <path class="bone-thin" d="M102 208 Q165 232 228 208"/>
+                <path class="bone-thin" d="M114 222 Q165 244 216 222"/>
+            
+
+                <g class="lower-teeth">
+                    <path class="tooth" d="M104 188 L113 190 L113 204 L105 202 Z"/>
+                    <path class="tooth" d="M115 191 L124 193 L124 207 L116 205 Z"/>
+                    <path class="tooth" d="M126 193 L136 195 L136 209 L127 208 Z"/>
+                    <path class="tooth" d="M138 195 L148 196 L148 210 L139 209 Z"/>
+                    <path class="tooth" d="M150 196 L160 197 L160 211 L151 211 Z"/>
+                    <path class="tooth" d="M170 197 L180 196 L180 211 L171 211 Z"/>
+                    <path class="tooth" d="M182 196 L192 195 L192 210 L183 209 Z"/>
+                    <path class="tooth" d="M194 195 L204 193 L204 209 L195 208 Z"/>
+                    <path class="tooth" d="M206 193 L215 191 L215 207 L207 205 Z"/>
+                    <path class="tooth" d="M217 190 L226 188 L225 204 L218 202 Z"/>
+                </g>
+                <path class="bone-thin" d="M102 208 Q165 232 228 208"/>
+                <path class="bone-thin" d="M114 222 Q165 244 216 222"/>
+            </g>
+        </svg>
+    </div>
+
+    <div class="network">HACKERS NETWORK</div>
+
+    <form class="login-form" onsubmit="login(event)">
+        <div class="input-box">
+            <input id="username" type="text" placeholder="USERNAME..." autocomplete="username">
+        </div>
+        <div class="password-container">
+            <div class="input-box">
+                <input id="password" type="password" placeholder="PASSWORD..." autocomplete="current-password">
+            </div>
+            <button class="login-button" type="submit" aria-label="Login">
+                <span class="lock"></span>
+            </button>
+        </div>
+    </form>
+
+    <div class="footer"><div>SECURE ACCESS SYSTEM</div><tex>Developed by Akshat</tex>
+    </div>
+</div>
+
+<script>
+function login(event){
+    event.preventDefault();
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value;
+    if(!username || !password){
+        alert("Please enter username and password.");
+        return;
+    }
+    alert("Access Granted for: " + username);
+}
+</script>
+
+</body>
+</html>
