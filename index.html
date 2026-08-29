@@ -68,7 +68,7 @@ html, body{
 .bone{ fill: none; stroke: #f3f3f3; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
 .bone-thin{ fill: none; stroke: #cfcfcf; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .cranium{ fill: #050607; stroke: #f2f2f2; stroke-width: 4; }
-.skull-base{ fill: #050607; stroke: #f2f2f2; stroke-width: 4; }
+.skull-base{ fill: #050607; stroke: #f2f2f2; stroke-width: 3.5; }
 .tooth{ fill: #eeeeee; stroke: #111; stroke-width: 1.7; }
 
 .eye{
@@ -86,15 +86,15 @@ html, body{
 
 @keyframes jawChatter{
     0%{ transform: translateY(0); }
-    3%{ transform: translateY(8px); }
+    3%{ transform: translateY(6px); }
     6%{ transform: translateY(0); }
-    9%{ transform: translateY(10px); }
+    9%{ transform: translateY(8px); }
     12%{ transform: translateY(0); }
-    15%{ transform: translateY(8px); }
+    15%{ transform: translateY(6px); }
     18%{ transform: translateY(0); }
-    21%{ transform: translateY(10px); }
+    21%{ transform: translateY(8px); }
     24%{ transform: translateY(0); }
-    27%{ transform: translateY(8px); }
+    27%{ transform: translateY(6px); }
     30%, 100%{ transform: translateY(0); }
 }
 
@@ -226,7 +226,6 @@ html, body{
             <path class="bone-thin" d="M283 108 L278 181 L263 188"/>
             <path class="bone-thin" d="M42 127 L59 113 M44 142 L62 127 M288 127 L271 113 M286 142 L268 127"/>
 
-
             <!-- MAIN CRANIUM -->
             <path class="cranium" d="M78 105 Q73 74 96 57 Q120 39 175 40 Q210 39
             234 57 Q267 74 252 105 L247 178 Q242 198 225 216 Q200 248 165 239
@@ -237,24 +236,23 @@ html, body{
             <path class="bone-thin" d="M91 106 Q110 82 132 80"/>
             <path class="bone-thin" d="M239 106 Q220 82 198 80"/>
 
-            <!-- POLISHED TACTICAL GOGGLES (FIXED TOP CURVES & EDGES) -->
+            <!-- GLOWING GOGGLE EYES -->
             <path class="eye" d="M82 106 Q105 92 132 92 Q152 97 165 103 Q168 97
             198 92 Q235 92 238 106 Q242 132 205 125 Q185 115 165 105 Q125 115
             105 125 Q98 132 82 106 Z"/>
             <path d="M92 104 Q112 94 132 99" stroke="#202500" stroke-width="1.5" fill="none"/>
             <path d="M238 104 Q218 94 198 99" stroke="#202500" stroke-width="2.5" fill="none"/>
 
-            <!-- NOSE -->
+            <!-- NOSE BRIDGE LINES -->
             <path class="bone-thin" d="M142 102 L148 139 M188 122 L182 139"/>
+
+            <!-- NOSE (triangular hole) -->
             <path d="M 164.3 121 L 165.7 121 L 165.7 131 C 162.7 131, 160.5 133.3, 160.5 136.3 L 159 140.8 C 156.8 143, 153 144.5, 152.2 147.5 C 151.5 149, 153.8 149.8, 165 149.8 C 176.2 149.8, 178.5 149, 177.8 147.5 C 177 144.5, 173.2 143, 171 140.8 L 169.5 136.3 C 169.5 133.3, 167.3 131, 164.3 131 Z" fill="#f5f5f5" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
-
-            
-
-
 
             <!-- UPPER JAW -->
             <g class="upper-jaw">
-                <path class="skull-base" d="M78          Z"/>
+                <path class="skull-base" d="M83 168 Q90 195 105 216 L135 220 Q165 226 195 220 L225 216
+                Q240 195 247 168 Q205 180 165 180 Q125 180 83 168 Z"/>
                 <g class="upper-teeth">
                     <path class="tooth" d="M102 168 L111 171 L111 187 L103 185 Z"/>
                     <path class="tooth" d="M113 171 L123 174 L123 189 L114 187 Z"/>
@@ -269,25 +267,10 @@ html, body{
                 </g>
             </g>
 
-            <!-- LOWER JAW - PERFECTED SYMMETRY -->
+            <!-- LOWER JAW -->
             <g class="lower-jaw">
-                <path class="skull-base" d="M90 184 Q94 210 128  Q144  Q206
-                233 231   175 195  Z"/>
-                <g class="lower-teeth">
-                    <path class="tooth" d="M104 188 L113 190 L113 204 L105 202 Z"/>
-                    <path class="tooth" d="M115 191 L124 193 L124 207 L116 205 Z"/>
-                    <path class="tooth" d="M126 193 L136 195 L136 209 L127 208 Z"/>
-                    <path class="tooth" d="M138 195 L148 196 L148 210 L139 209 Z"/>
-                    <path class="tooth" d="M150 196 L160 197 L160 211 L151 211 Z"/>
-                    <path class="tooth" d="M170 197 L180 196 L180 211 L171 211 Z"/>
-                    <path class="tooth" d="M182 196 L192 195 L192 210 L183 209 Z"/>
-                    <path class="tooth" d="M194 195 L204 193 L204 209 L195 208 Z"/>
-                    <path class="tooth" d="M206 193 L215 191 L215 207 L207 205 Z"/>
-                    <path class="tooth" d="M217 190 L226 188 L225 204 L218 202 Z"/>
-                </g>
-   
-            
-
+                <path class="skull-base" d="M95 188 Q100 222 130 236 Q165 247 200 236
+                Q230 222 235 188 Q200 204 165 204 Q130 204 95 188 Z"/>
                 <g class="lower-teeth">
                     <path class="tooth" d="M104 188 L113 190 L113 204 L105 202 Z"/>
                     <path class="tooth" d="M115 191 L124 193 L124 207 L116 205 Z"/>
@@ -301,7 +284,6 @@ html, body{
                     <path class="tooth" d="M217 190 L226 188 L225 204 L218 202 Z"/>
                 </g>
                 <path class="bone-thin" d="M102 208 Q165 232 228 208"/>
-                
             </g>
         </svg>
     </div>
@@ -322,7 +304,7 @@ html, body{
         </div>
     </form>
 
-    <div class="footer"><div>SECURE ACCESS SYSTEM</div><tex>Developed by Akshat</tex>
+    <div class="footer"><div>SECURE ACCESS SYSTEM</div><div>Developed by Akshat</div>
     </div>
 </div>
 
