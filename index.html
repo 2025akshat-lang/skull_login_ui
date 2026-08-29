@@ -205,7 +205,15 @@ html, body{
         <svg class="skull" viewBox="0 0 330 380" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <path id="textPath" d="M 28 50 Q 165 -6 302 50" fill="none"/>
+                <radialGradient id="skullGlow" cx="50%" cy="45%" r="55%">
+                    <stop offset="0%" stop-color="#9aff2a" stop-opacity="0.28"/>
+                    <stop offset="55%" stop-color="#9aff2a" stop-opacity="0.08"/>
+                    <stop offset="100%" stop-color="#9aff2a" stop-opacity="0"/>
+                </radialGradient>
             </defs>
+
+            <!-- AMBIENT GLOW BEHIND SKULL -->
+            <ellipse cx="165" cy="150" rx="160" ry="160" fill="url(#skullGlow)"/>
 
             <!-- 'BRAIN' TEXT -->
             <text fill="#ffffff" font-size="42" font-weight="900" font-family="Arial, sans-serif" letter-spacing="13" filter="drop-shadow(2px 2px 0px #555)">
@@ -213,16 +221,16 @@ html, body{
             </text>
 
             <!-- HEADPHONE OUTER ARC -->
-            <path class="bone" stroke-width="5" d="M45 145 L40 100 Q42 38 165 28 Q288 38 290 100 L285 145"/>
+            <path class="bone" stroke-width="7" d="M45 145 L40 100 Q42 38 165 28 Q288 38 290 100 L285 145"/>
             <path class="bone-thin" d="M55 104 Q75 53 165 47 Q255 53 275 104"/>
             <path class="bone-thin" d="M70 82 Q110 45 165 43 Q220 45 260 82"/>
 
             <!-- LEFT HEADPHONE -->
-            <path class="bone" stroke-width="5" d="M43 91 Q28 98 30 118 L34 174 Q35 198 58 203 L76 192 L70 104 Z"/>
+            <path class="bone" stroke-width="6" d="M43 91 Q26 98 28 120 L33 176 Q34 200 58 205 L78 193 L71 103 Z"/>
             <path class="bone-thin" d="M47 108 L52 181 L67 188"/>
 
             <!-- RIGHT HEADPHONE -->
-            <path class="bone" stroke-width="5" d="M287 91 Q302 98 300 118 L296 174 Q295 198 272 203 L254 192 L260 104 Z"/>
+            <path class="bone" stroke-width="6" d="M287 91 Q304 98 302 120 L297 176 Q296 200 272 205 L252 193 L259 103 Z"/>
             <path class="bone-thin" d="M283 108 L278 181 L263 188"/>
             <path class="bone-thin" d="M42 127 L59 113 M44 142 L62 127 M288 127 L271 113 M286 142 L268 127"/>
 
@@ -237,11 +245,11 @@ html, body{
             <path class="bone-thin" d="M239 106 Q220 82 198 80"/>
 
             <!-- GLOWING GOGGLE EYES -->
-            <path class="eye" d="M82 106 Q105 92 132 92 Q152 97 165 103 Q168 97
-            198 92 Q235 92 238 106 Q242 132 205 125 Q185 115 165 105 Q125 115
-            105 125 Q98 132 82 106 Z"/>
-            <path d="M92 104 Q112 94 132 99" stroke="#202500" stroke-width="1.5" fill="none"/>
-            <path d="M238 104 Q218 94 198 99" stroke="#202500" stroke-width="2.5" fill="none"/>
+            <path class="eye" d="M79 102 Q100 86 130 88 Q155 91 165 100 Q175 91
+            200 88 Q230 86 251 102 Q258 118 242 133 Q220 140 200 128 Q182 117
+            165 109 Q148 117 130 128 Q110 140 88 133 Q72 118 79 102 Z"/>
+            <path d="M90 100 Q112 90 132 96" stroke="#202500" stroke-width="1.5" fill="none"/>
+            <path d="M240 100 Q218 90 198 96" stroke="#202500" stroke-width="2.5" fill="none"/>
 
             <!-- NOSE BRIDGE LINES -->
             <path class="bone-thin" d="M142 102 L148 139 M188 122 L182 139"/>
