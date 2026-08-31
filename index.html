@@ -1,333 +1,3245 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Brain - Hacker Login</title>
-<style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>BRAIN - Hacker Login & Mainframe</title><style>
 *{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-html, body{
-    width: 100%;
-    height: 100%;
-    background: #020304;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: Arial, sans-serif;
-    overflow: hidden;
+:root{
+    --green:#00ff88;
+    --lime:#baff00;
+    --red:#ff2222;
+    --amber:#ffb000;
+    --dark:#020304;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    background:#020304;
+    font-family:'Courier New',Courier,monospace;
+    overflow:hidden;
+}
+
+/* =========================
+   MATRIX BACKGROUND
+========================= */
+#matrix-canvas{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:0;
+    pointer-events:none;
+    opacity:.18;
+    display:none;
+}
+
+/* =========================
+   LOGIN SCREEN
+========================= */
+#login-screen{
+    position:fixed;
+    inset:0;
+    z-index:5;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:10px;
 }
 
 .login-card{
-    position: relative;
-    width: 100%;
-    max-width: 380px;
-    height: 100%;
-    max-height: 680px;
-    background: radial-gradient(ellipse at 50% 20%, #24282e 0%, #111419 32%, #07090c 72%, #030405 100%);
-    border: 1px solid #30343a;
-    border-radius: 18px;
-    box-shadow: 0 0 40px rgba(0,0,0,.95);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 15px;
-    overflow-y: auto;
+    position:relative;
+    width:100%;
+    max-width:380px;
+    height:100%;
+    max-height:680px;
+
+    background:
+        radial-gradient(ellipse at 50% 20%,
+        #15181c 0%,
+        #0d0f12 32%,
+        #07090c 72%,
+        #030405 100%);
+
+    border:1px solid #30343a;
+    border-radius:18px;
+
+    box-shadow:
+        0 0 40px rgba(0,0,0,.95),
+        0 0 15px rgba(186,255,0,.05);
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:15px;
+    overflow:hidden;
 }
 
 .top-light{
-    position: absolute;
-    top: 0;
-    left: 20%;
-    width: 60%;
-    height: 3px;
-    background: #fff;
-    border-radius: 0 0 8px 8px;
-    box-shadow: 0 0 10px #fff, 0 0 20px rgba(255,255,255,.8);
+    position:absolute;
+    top:0;
+    left:20%;
+    width:60%;
+    height:3px;
+    background:#baff00;
+    border-radius:0 0 8px 8px;
+
+    box-shadow:
+        0 0 10px #baff00,
+        0 0 20px rgba(186,255,0,.8);
+
+    transition:
+        background .3s,
+        box-shadow .3s;
 }
 
 .skull-area{
-    width: 100%;
-    height: 280px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 5px;
+    width:100%;
+    height:280px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-top:5px;
 }
 
 .skull{
-    width: 240px;
-    height: 270px;
-    overflow: visible;
+    width:240px;
+    height:270px;
+    overflow:visible;
 }
 
-.bone{ fill: none; stroke: #f3f3f3; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
-.bone-thin{ fill: none; stroke: #cfcfcf; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.cranium{ fill: #050607; stroke: #f2f2f2; stroke-width: 4; }
-.skull-base{ fill: #050607; stroke: #f2f2f2; stroke-width: 3.5; }
-.tooth{ fill: #eeeeee; stroke: #111; stroke-width: 1.7; }
+/* =========================
+   SKULL
+========================= */
+.bone{
+    fill:none;
+    stroke:#f3f3f3;
+    stroke-width:3.5;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+.bone-thin{
+    fill:none;
+    stroke:#cfcfcf;
+    stroke-width:1.8;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+.cranium{
+    fill:#050607;
+    stroke:#f2f2f2;
+    stroke-width:4;
+}
+
+.skull-base{
+    fill:#050607;
+    stroke:#f2f2f2;
+    stroke-width:3.5;
+}
+
+.tooth{
+    fill:#eeeeee;
+    stroke:#111;
+    stroke-width:1.7;
+}
 
 .eye{
-    fill: #baff00;
-    stroke: #efff9a;
-    stroke-width: 2;
-    filter: drop-shadow(0 0 4px #baff00) drop-shadow(0 0 10px #baff00);
+    fill:#baff00;
+    stroke:#efff9a;
+    stroke-width:2;
+
+    filter:
+        drop-shadow(0 0 4px #baff00)
+        drop-shadow(0 0 10px #baff00);
+
+    transition:
+        fill .35s,
+        filter .35s;
 }
 
+/* =========================
+   LOWER JAW CHATTER
+========================= */
 .lower-jaw{
-    transform-box: fill-box;
-    transform-origin: center top;
-    animation: jawChatter 3.2s infinite linear;
+    transform-box:fill-box;
+    transform-origin:center top;
+    animation:jawChatter 3.2s infinite linear;
 }
 
 @keyframes jawChatter{
-    0%{ transform: translateY(0); }
-    3%{ transform: translateY(6px); }
-    6%{ transform: translateY(0); }
-    9%{ transform: translateY(8px); }
-    12%{ transform: translateY(0); }
-    15%{ transform: translateY(6px); }
-    18%{ transform: translateY(0); }
-    21%{ transform: translateY(8px); }
-    24%{ transform: translateY(0); }
-    27%{ transform: translateY(6px); }
-    30%, 100%{ transform: translateY(0); }
+
+    0%{
+        transform:translateY(0);
+    }
+
+    3%{
+        transform:translateY(6px);
+    }
+
+    6%{
+        transform:translateY(0);
+    }
+
+    9%{
+        transform:translateY(8px);
+    }
+
+    12%{
+        transform:translateY(0);
+    }
+
+    15%{
+        transform:translateY(6px);
+    }
+
+    18%{
+        transform:translateY(0);
+    }
+
+    21%{
+        transform:translateY(8px);
+    }
+
+    24%{
+        transform:translateY(0);
+    }
+
+    27%{
+        transform:translateY(6px);
+    }
+
+    30%,100%{
+        transform:translateY(0);
+    }
 }
 
+/* =========================
+   GLASS COLOR EFFECT
+========================= */
+.glass-scan{
+    position:absolute;
+    top:42px;
+    left:50%;
+    transform:translateX(-50%);
+    width:235px;
+    height:210px;
+
+    border-radius:50%;
+    pointer-events:none;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(186,255,0,.12) 0%,
+            rgba(186,255,0,.05) 38%,
+            transparent 70%
+        );
+
+    mix-blend-mode:screen;
+
+    animation:
+        glassColor 7s infinite linear;
+
+    transition:.3s;
+}
+
+@keyframes glassColor{
+
+    0%,45%{
+        filter:hue-rotate(0deg);
+        opacity:.8;
+    }
+
+    50%{
+        filter:hue-rotate(45deg);
+        opacity:1;
+    }
+
+    60%,100%{
+        filter:hue-rotate(0deg);
+        opacity:.8;
+    }
+}
+
+.login-card.denied .glass-scan{
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(255,34,34,.25) 0%,
+            rgba(255,34,34,.08) 40%,
+            transparent 70%
+        );
+
+    animation:none;
+}
+
+/* =========================
+   TEXT
+========================= */
 .network{
-    color: #e6e6e6;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 4px;
-    text-align: center;
-    margin: 5px 0 15px 0;
-    text-shadow: 0 0 6px rgba(255,255,255,.25);
+    color:#e6e6e6;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:4px;
+    text-align:center;
+    margin:5px 0 15px;
+    text-shadow:0 0 6px rgba(255,255,255,.25);
 }
 
 .login-form{
-    width: 90%;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    width:90%;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
 }
 
 .input-box{
-    width: 100%;
-    height: 48px;
-    background: linear-gradient(180deg, #f3f3f3, #dcdcdc);
-    border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0,0,0,.4);
-    overflow: hidden;
+    width:100%;
+    height:48px;
+    background:
+        linear-gradient(
+            180deg,
+            #f3f3f3,
+            #dcdcdc
+        );
+
+    border-radius:6px;
+    box-shadow:0 4px 12px rgba(0,0,0,.4);
+    overflow:hidden;
 }
 
 .input-box input{
-    width: 100%;
-    height: 100%;
-    border: none;
-    outline: none;
-    background: transparent;
-    color: #111;
-    padding: 0 15px;
-    font-size: 15px;
-    font-weight: 600;
+    width:100%;
+    height:100%;
+    border:none;
+    outline:none;
+    background:transparent;
+    color:#111;
+    padding:0 15px;
+    font-size:15px;
+    font-weight:600;
+    font-family:inherit;
 }
 
 .input-box input::placeholder{
-    color: #666;
-    letter-spacing: 1px;
+    color:#666;
+    letter-spacing:1px;
 }
 
 .password-container{
-    display: flex;
-    width: 100%;
-    height: 48px;
+    display:flex;
+    width:100%;
+    height:48px;
 }
 
 .password-container .input-box{
-    flex: 1;
-    border-radius: 6px 0 0 6px;
+    flex:1;
+    border-radius:6px 0 0 6px;
 }
 
 .login-button{
-    width: 52px;
-    height: 48px;
-    border: none;
-    background: linear-gradient(180deg, #eeeeee, #cfcfcf);
-    border-radius: 0 6px 6px 0;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,.4);
+    width:52px;
+    height:48px;
+    border:none;
+
+    background:
+        linear-gradient(
+            180deg,
+            #eeeeee,
+            #cfcfcf
+        );
+
+    border-radius:0 6px 6px 0;
+    cursor:pointer;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.4);
+
+    transition:.2s;
+}
+
+.login-button:hover{
+    background:#baff00;
 }
 
 .lock{
-    position: relative;
-    width: 16px;
-    height: 15px;
-    background: #111;
-    border-radius: 2px;
+    position:relative;
+    width:16px;
+    height:15px;
+    background:#111;
+    border-radius:2px;
 }
 
 .lock::before{
-    content: "";
-    position: absolute;
-    width: 9px;
-    height: 10px;
-    left: 3.5px;
-    top: -8px;
-    border: 2.5px solid #111;
-    border-bottom: none;
-    border-radius: 7px 7px 0 0;
+    content:"";
+
+    position:absolute;
+
+    width:9px;
+    height:10px;
+
+    left:3.5px;
+    top:-8px;
+
+    border:2.5px solid #111;
+    border-bottom:none;
+
+    border-radius:7px 7px 0 0;
 }
 
 .footer{
-    margin-top: auto;
-    padding-top: 15px;
-    color: #555;
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 3px;
-    text-align: center;
-}
-</style>
-</head>
-<body>
+    margin-top:auto;
+    padding-top:15px;
 
-<div class="login-card">
-    <div class="top-light"></div>
+    color:#555;
+
+    font-size:9px;
+    font-weight:600;
+    letter-spacing:3px;
+    text-align:center;
+
+    line-height:1.8;
+}
+
+/* =========================
+   TERMINAL OVERLAY
+========================= */
+.terminal-overlay{
+    position:absolute;
+    inset:0;
+
+    background:rgba(0,5,2,.96);
+
+    z-index:20;
+
+    display:none;
+    flex-direction:column;
+
+    padding:20px;
+
+    font-size:12px;
+
+    overflow-y:auto;
+}
+
+.terminal-overlay p{
+    margin-bottom:6px;
+    line-height:1.4;
+
+    color:#ff3333;
+
+    text-shadow:
+        0 0 4px #ff3333;
+}
+
+.status-denied{
+    color:#ff2222;
+
+    font-size:16px;
+    font-weight:bold;
+
+    text-align:center;
+
+    margin-top:20px;
+
+    border:2px solid #ff2222;
+
+    padding:10px;
+
+    box-shadow:0 0 20px #ff2222;
+
+    animation:blink .5s infinite alternate;
+}
+
+@keyframes blink{
+
+    from{
+        opacity:1;
+    }
+
+    to{
+        opacity:.4;
+    }
+}
+
+.close-btn{
+    margin-top:auto;
+
+    background:#ff2222;
+    color:white;
+
+    border:none;
+
+    padding:10px;
+
+    font-family:inherit;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    border-radius:4px;
+
+    box-shadow:
+        0 0 10px #ff2222;
+}
+
+/* =========================
+   BOOT SCREEN
+========================= */
+#boot-screen{
+    display:none;
+
+    position:fixed;
+    inset:0;
+
+    z-index:100;
+
+    background:#000;
+
+    color:#00ff88;
+
+    padding:20px;
+
+    align-items:center;
+    justify-content:center;
+}
+
+.boot-terminal{
+    width:min(850px,100%);
+    font-size:clamp(11px,2vw,15px);
+    line-height:1.7;
+}
+
+#boot-output{
+    white-space:pre-wrap;
+}
+
+.boot-cursor{
+    display:inline-block;
+
+    width:9px;
+    height:16px;
+
+    background:#00ff88;
+
+    animation:cursorBlink .7s infinite;
+}
+
+@keyframes cursorBlink{
+
+    50%{
+        opacity:0;
+    }
+}
+
+/* =========================
+   MAINFRAME
+========================= */
+#hacker-dashboard{
+    display:none;
+
+    position:fixed;
+    inset:0;
+
+    z-index:10;
+
+    color:#00ff88;
+
+    background:
+        rgba(2,6,4,.88);
+
+    padding:10px;
+
+    overflow:hidden;
+}
+
+/* =========================
+   MAIN SHELL
+========================= */
+.main-shell{
+    width:100%;
+    height:100%;
+
+    max-width:1500px;
+
+    margin:auto;
+
+    border:
+        1px solid rgba(0,255,136,.35);
+
+    background:
+        rgba(0,10,5,.82);
+
+    box-shadow:
+        0 0 30px rgba(0,255,136,.08);
+
+    display:grid;
+
+    grid-template-rows:
+        58px
+        1fr
+        32px;
+}
+
+/* =========================
+   TOPBAR
+========================= */
+.topbar{
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    gap:10px;
+
+    padding:10px 15px;
+
+    border-bottom:
+        1px solid rgba(0,255,136,.25);
+
+    background:
+        rgba(0,25,12,.55);
+}
+
+.system-title{
+    color:#baff00;
+
+    font-weight:bold;
+
+    font-size:clamp(14px,2vw,21px);
+
+    letter-spacing:3px;
+
+    text-shadow:
+        0 0 10px #00ff88;
+}
+
+.system-title small{
+    display:block;
+
+    margin-top:4px;
+
+    color:#638270;
+
+    font-size:7px;
+
+    letter-spacing:2px;
+}
+
+.top-info{
+    display:flex;
+
+    gap:12px;
+
+    align-items:center;
+
+    color:#a8f8ba;
+
+    font-size:9px;
+}
+
+.live-dot{
+    width:8px;
+    height:8px;
+
+    border-radius:50%;
+
+    background:#00ff88;
+
+    box-shadow:
+        0 0 10px #00ff88;
+
+    animation:livePulse 1s infinite;
+}
+
+@keyframes livePulse{
+
+    50%{
+        opacity:.2;
+    }
+}
+
+/* =========================
+   DASHBOARD GRID
+========================= */
+.dashboard-grid{
+    min-height:0;
+
+    padding:8px;
+
+    display:grid;
+
+    grid-template-columns:
+        240px
+        minmax(320px,1fr)
+        250px;
+
+    gap:8px;
+
+    overflow:auto;
+}
+
+/* =========================
+   PANELS
+========================= */
+.panel{
+    border:
+        1px solid rgba(0,255,136,.25);
+
+    background:
+        rgba(0,15,7,.68);
+
+    min-width:0;
+
+    overflow:hidden;
+}
+
+.panel-header{
+    min-height:34px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    padding:8px 10px;
+
+    border-bottom:
+        1px solid rgba(0,255,136,.18);
+
+    color:#baff00;
+
+    font-size:10px;
+
+    font-weight:bold;
+
+    letter-spacing:1px;
+}
+
+.panel-header span{
+    color:#648470;
+
+    font-size:8px;
+}
+
+/* =========================
+   LEFT
+========================= */
+.left-column{
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+}
+
+.node-list{
+    padding:8px;
+}
+
+.node{
+    padding:10px;
+
+    margin-bottom:7px;
+
+    border:
+        1px solid rgba(0,255,136,.12);
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.node:hover,
+.node.active{
+    background:
+        rgba(0,255,136,.08);
+
+    border-color:#00ff88;
+
+    box-shadow:
+        inset 3px 0 0 #00ff88;
+}
+
+.node-name{
+    font-size:10px;
+
+    color:#dcffe6;
+
+    margin-bottom:5px;
+}
+
+.node-status{
+    color:#648470;
+
+    font-size:8px;
+}
+
+.indicator{
+    display:inline-block;
+
+    width:6px;
+    height:6px;
+
+    background:#00ff88;
+
+    border-radius:50%;
+
+    margin-right:5px;
+
+    box-shadow:
+        0 0 7px #00ff88;
+}
+
+/* =========================
+   METERS
+========================= */
+.system-meters{
+    padding:10px;
+}
+
+.meter{
+    margin-bottom:14px;
+}
+
+.meter-head{
+    display:flex;
+
+    justify-content:space-between;
+
+    color:#a7d7b4;
+
+    font-size:8px;
+
+    margin-bottom:5px;
+}
+
+.meter-bar{
+    height:7px;
+
+    background:#001b0d;
+
+    border:
+        1px solid rgba(0,255,136,.18);
+}
+
+.meter-fill{
+    width:50%;
+    height:100%;
+
+    background:#00ff88;
+
+    box-shadow:
+        0 0 10px #00ff88;
+
+    transition:
+        width .8s;
+}
+
+/* =========================
+   CENTER
+========================= */
+.center-column{
+    min-height:500px;
+
+    display:flex;
+
+    flex-direction:column;
+}
+
+/* =========================
+   NETWORK MAP
+========================= */
+.network-map{
+    position:relative;
+
+    height:220px;
+
+    overflow:hidden;
+
+    border-bottom:
+        1px solid rgba(0,255,136,.25);
+
+    background:
+        linear-gradient(
+            rgba(0,255,136,.05) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(0,255,136,.05) 1px,
+            transparent 1px
+        );
+
+    background-size:
+        25px 25px;
+}
+
+.network-map::after{
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(0,255,136,.10),
+            transparent 60%
+        );
+
+    pointer-events:none;
+}
+
+.network-lines{
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+}
+
+.map-node{
+    position:absolute;
+
+    z-index:2;
+
+    width:10px;
+    height:10px;
+
+    border-radius:50%;
+
+    background:#001b0d;
+
+    border:
+        1px solid #00ff88;
+
+    box-shadow:
+        0 0 9px #00ff88;
+
+    animation:
+        nodePulse 2s infinite;
+}
+
+.map-node::after{
+    content:attr(data-label);
+
+    position:absolute;
+
+    top:14px;
+    left:-25px;
+
+    color:#7da98a;
+
+    white-space:nowrap;
+
+    font-size:7px;
+}
+
+.map-node.main{
+    width:24px;
+    height:24px;
+
+    background:#00ff88;
+
+    box-shadow:
+        0 0 15px #00ff88,
+        0 0 35px #00ff88;
+}
+
+@keyframes nodePulse{
+
+    50%{
+        box-shadow:
+            0 0 20px #00ff88;
+    }
+}
+
+/* =========================
+   CONSOLE
+========================= */
+.console-section{
+    flex:1;
+
+    min-height:280px;
+
+    display:flex;
+
+    flex-direction:column;
+}
+
+#console-screen{
+    flex:1;
+
+    padding:12px;
+
+    overflow:auto;
+
+    font-size:12px;
+
+    line-height:1.6;
+
+    color:#a8f8ba;
+}
+
+.console-line{
+    margin-bottom:3px;
+    word-break:break-word;
+}
+
+.console-success{
+    color:#baff00;
+}
+
+.console-warn{
+    color:#ffb000;
+}
+
+.console-error{
+    color:#ff3d3d;
+}
+
+.console-dim{
+    color:#537260;
+}
+
+.command-row{
+    min-height:45px;
+
+    display:flex;
+
+    align-items:center;
+
+    padding:0 10px;
+
+    border-top:
+        1px solid rgba(0,255,136,.22);
+}
+
+.command-prefix{
+    color:#baff00;
+
+    margin-right:8px;
+
+    font-size:11px;
+}
+
+#command-input{
+    flex:1;
+
+    min-width:0;
+
+    border:none;
+    outline:none;
+
+    background:transparent;
+
+    color:#00ff88;
+
+    font-family:inherit;
+
+    font-size:12px;
+}
+
+/* =========================
+   RIGHT
+========================= */
+.right-column{
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+}
+
+.globe-box{
+    min-height:190px;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+}
+
+.globe{
+    position:relative;
+
+    width:130px;
+    height:130px;
+
+    border:
+        1px solid #00ff88;
+
+    border-radius:50%;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 0 20px rgba(0,255,136,.25),
+        inset 0 0 20px rgba(0,255,136,.08);
+
+    animation:
+        globeSpin 10s linear infinite;
+}
+
+.globe::before{
+    content:"";
+
+    position:absolute;
+
+    width:100%;
+    height:40%;
+
+    top:30%;
+
+    border-top:
+        1px solid rgba(0,255,136,.35);
+
+    border-bottom:
+        1px solid rgba(0,255,136,.35);
+
+    border-radius:50%;
+}
+
+.globe::after{
+    content:"";
+
+    position:absolute;
+
+    width:40%;
+    height:100%;
+
+    left:30%;
+
+    border-left:
+        1px solid rgba(0,255,136,.35);
+
+    border-right:
+        1px solid rgba(0,255,136,.35);
+
+    border-radius:50%;
+}
+
+.globe-grid{
+    position:absolute;
+
+    inset:0;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0 14px,
+            rgba(0,255,136,.12) 15px 16px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent 0 17px,
+            rgba(0,255,136,.08) 18px 19px
+        );
+}
+
+.globe-text{
+    position:absolute;
+
+    inset:0;
+
+    z-index:5;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+
+    color:#baff00;
+
+    font-size:8px;
+
+    letter-spacing:1px;
+
+    animation:
+        counterSpin 10s linear infinite;
+}
+
+@keyframes globeSpin{
+
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+@keyframes counterSpin{
+
+    to{
+        transform:rotate(-360deg);
+    }
+}
+
+.activity-log{
+    height:250px;
+
+    padding:10px;
+
+    overflow:auto;
+
+    color:#83aa90;
+
+    font-size:9px;
+
+    line-height:1.6;
+}
+
+.activity-entry{
+    padding:4px 0;
+
+    border-bottom:
+        1px solid rgba(0,255,136,.06);
+}
+
+.activity-time{
+    color:#456552;
+}
+
+/* =========================
+   FOOTER
+========================= */
+.bottom-bar{
+    display:flex;
+
+    justify-content:space-between;
+    align-items:center;
+
+    padding:0 12px;
+
+    border-top:
+        1px solid rgba(0,255,136,.2);
+
+    color:#607e6b;
+
+    font-size:8px;
+
+    background:
+        rgba(0,20,10,.7);
+}
+
+.online{
+    color:#00ff88;
+}
+
+.key{
+    color:#baff00;
+}
+
+/* =========================
+   TOAST
+========================= */
+#toast{
+    position:fixed;
+
+    top:15px;
+    left:50%;
+
+    transform:
+        translateX(-50%)
+        translateY(-100px);
+
+    z-index:1000;
+
+    background:#03140a;
+
+    border:
+        1px solid #00ff88;
+
+    color:#00ff88;
+
+    padding:10px 16px;
+
+    font-size:11px;
+
+    box-shadow:
+        0 0 20px rgba(0,255,136,.25);
+
+    transition:.3s;
+}
+
+#toast.show{
+    transform:
+        translateX(-50%)
+        translateY(0);
+}
+
+/* =========================
+   BREACH EFFECT
+========================= */
+.shake-effect{
+    animation:
+        shake .12s infinite;
+}
+
+@keyframes shake{
+
+    0%{
+        transform:translate(3px,3px);
+    }
+
+    25%{
+        transform:translate(-3px,-2px);
+    }
+
+    50%{
+        transform:translate(2px,-3px);
+    }
+
+    75%{
+        transform:translate(-2px,3px);
+    }
+
+    100%{
+        transform:translate(3px,-2px);
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media(max-width:900px){
+
+    html,
+    body{
+        overflow:auto;
+    }
+
+    #hacker-dashboard{
+        overflow:auto;
+    }
+
+    .main-shell{
+        min-height:100%;
+    }
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+
+        overflow:visible;
+    }
+
+    .left-column{
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .right-column{
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+    }
+}
+
+@media(max-width:600px){
+
+    .left-column,
+    .right-column{
+        grid-template-columns:1fr;
+    }
+
+    .topbar{
+        padding:8px;
+    }
+
+    .top-info{
+        font-size:7px;
+        gap:6px;
+    }
+
+    .top-info span:nth-child(2){
+        display:none;
+    }
+
+    .dashboard-grid{
+        padding:5px;
+        gap:5px;
+    }
+
+    .network-map{
+        height:180px;
+    }
+
+    .bottom-bar span:last-child{
+        display:none;
+    }
+}
+</style></head><body><!-- MATRIX --><canvas id="matrix-canvas"></canvas>
+
+<!-- =========================
+     CLEAN ORIGINAL LOGIN
+========================= --><div id="login-screen"><div class="login-card" id="loginCard">
+
+    <div class="top-light" id="topLight"></div>
+
+    <div class="glass-scan"></div>
 
     <div class="skull-area">
-        <svg class="skull" viewBox="0 0 330 380" xmlns="http://www.w3.org/2000/svg">
+
+        <svg class="skull"
+             viewBox="0 0 330 380"
+             xmlns="http://www.w3.org/2000/svg">
+
             <defs>
-                <path id="textPath" d="M 28 50 Q 165 -6 302 50" fill="none"/>
-                <radialGradient id="skullGlow" cx="50%" cy="45%" r="55%">
-                    <stop offset="0%" stop-color="#9aff2a" stop-opacity="0.28"/>
-                    <stop offset="55%" stop-color="#9aff2a" stop-opacity="0.08"/>
-                    <stop offset="100%" stop-color="#9aff2a" stop-opacity="0"/>
+
+                <path id="textPath"
+                      d="M 28 50 Q 165 -6 302 50"
+                      fill="none"/>
+
+                <radialGradient id="skullGlow"
+                                cx="50%"
+                                cy="45%"
+                                r="55%">
+
+                    <stop id="glow1"
+                          offset="0%"
+                          stop-color="#9aff2a"
+                          stop-opacity=".28"/>
+
+                    <stop id="glow2"
+                          offset="55%"
+                          stop-color="#9aff2a"
+                          stop-opacity=".08"/>
+
+                    <stop offset="100%"
+                          stop-color="#9aff2a"
+                          stop-opacity="0"/>
+
                 </radialGradient>
+
             </defs>
 
-            <!-- AMBIENT GLOW BEHIND SKULL -->
-            <ellipse cx="165" cy="150" rx="160" ry="160" fill="url(#skullGlow)"/>
+            <ellipse cx="165"
+                     cy="150"
+                     rx="160"
+                     ry="160"
+                     fill="url(#skullGlow)"/>
 
-            <!-- 'BRAIN' TEXT -->
-            <text fill="#ffffff" font-size="42" font-weight="900" font-family="Arial, sans-serif" letter-spacing="13" filter="drop-shadow(2px 2px 0px #555)">
-                <textPath href="#textPath" startOffset="55%" text-anchor="middle">BRAIN</textPath>
+            <text fill="#ffffff"
+                  font-size="42"
+                  font-weight="900"
+                  font-family="Arial,sans-serif"
+                  letter-spacing="13">
+
+                <textPath href="#textPath"
+                          startOffset="55%"
+                          text-anchor="middle">
+
+                    BRAIN
+
+                </textPath>
+
             </text>
 
-            <!-- HEADPHONE OUTER ARC -->
-            <path class="bone" stroke-width="7" d="M45 145 L40 100 Q42 38 165 28 Q288 38 290 100 L285 145"/>
-            <path class="bone-thin" d="M55 104 Q75 53 165 47 Q255 53 275 104"/>
-            <path class="bone-thin" d="M70 82 Q110 45 165 43 Q220 45 260 82"/>
+            <path class="bone"
+                  stroke-width="7"
+                  d="M45 145 L40 100 Q42 38 165 28 Q288 38 290 100 L285 145"/>
 
-            <!-- LEFT HEADPHONE -->
-            <path class="bone" stroke-width="6" d="M43 91 Q26 98 28 120 L33 176 Q34 200 58 205 L78 193 L71 103 Z"/>
-            <path class="bone-thin" d="M47 108 L52 181 L67 188"/>
+            <path class="bone-thin"
+                  d="M55 104 Q75 53 165 47 Q255 53 275 104"/>
 
-            <!-- RIGHT HEADPHONE -->
-            <path class="bone" stroke-width="6" d="M287 91 Q304 98 302 120 L297 176 Q296 200 272 205 L252 193 L259 103 Z"/>
-            <path class="bone-thin" d="M283 108 L278 181 L263 188"/>
-            <path class="bone-thin" d="M42 127 L59 113 M44 142 L62 127 M288 127 L271 113 M286 142 L268 127"/>
+            <path class="bone-thin"
+                  d="M70 82 Q110 45 165 43 Q220 45 260 82"/>
 
-            <!-- MAIN CRANIUM -->
-            <path class="cranium" d="M78 105 Q73 74 96 57 Q120 39 175 40 Q210 39
-            234 57 Q267 74 252 105 L247 178 Q242 198 225 216 Q200 248 165 239
-            Q130 238 105 216 Q98 198 83 168 Z"/>
-            <path class="bone-thin" d="M90 91 Q128 61 137 55"/>
-            <path class="bone-thin" d="M240 91 Q222 61 193 55"/>
-            <path class="bone-thin" d="M101 76 Q125 55 165 53 Q205 55 229 76"/>
-            <path class="bone-thin" d="M91 106 Q110 82 132 80"/>
-            <path class="bone-thin" d="M239 106 Q220 82 198 80"/>
+            <path class="bone"
+                  stroke-width="6"
+                  d="M43 91 Q26 98 28 120 L33 176 Q34 200 58 205 L78 193 L71 103 Z"/>
 
-            <!-- GLOWING GOGGLE EYES -->
-            <path class="eye" d="M79 102 Q100 86 130 88 Q155 91 165 100 Q175 91
-            200 88 Q230 86 251 102 Q258 118 242 133 Q220 140 200 128 Q182 117
-            165 109 Q148 117 130 128 Q110 140 88 133 Q72 118 79 102 Z"/>
-            <path d="M90 100 Q112 90 132 96" stroke="#202500" stroke-width="1.5" fill="none"/>
-            <path d="M240 100 Q218 90 198 96" stroke="#202500" stroke-width="2.5" fill="none"/>
+            <path class="bone-thin"
+                  d="M47 108 L52 181 L67 188"/>
 
-            <!-- NOSE BRIDGE LINES -->
-            <path class="bone-thin" d="M142 102 L148 139 M188 122 L182 139"/>
+            <path class="bone"
+                  stroke-width="6"
+                  d="M287 91 Q304 98 302 120 L297 176 Q296 200 272 205 L252 193 L259 103 Z"/>
 
-            <!-- NOSE (triangular hole) -->
-            <path d="M 164.3 121 L 165.7 121 L 165.7 131 C 162.7 131, 160.5 133.3, 160.5 136.3 L 159 140.8 C 156.8 143, 153 144.5, 152.2 147.5 C 151.5 149, 153.8 149.8, 165 149.8 C 176.2 149.8, 178.5 149, 177.8 147.5 C 177 144.5, 173.2 143, 171 140.8 L 169.5 136.3 C 169.5 133.3, 167.3 131, 164.3 131 Z" fill="#f5f5f5" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
+            <path class="bone-thin"
+                  d="M283 108 L278 181 L263 188"/>
+
+            <path class="bone-thin"
+                  d="M42 127 L59 113 M44 142 L62 127 M288 127 L271 113 M286 142 L268 127"/>
+
+            <path class="cranium"
+                  d="M78 105 Q73 74 96 57 Q120 39 175 40 Q210 39 234 57 Q267 74 252 105 L247 178 Q242 198 225 216 Q200 248 165 239 Q130 238 105 216 Q98 198 83 168 Z"/>
+
+            <path class="bone-thin"
+                  d="M90 91 Q128 61 137 55"/>
+
+            <path class="bone-thin"
+                  d="M240 91 Q222 61 193 55"/>
+
+            <path class="bone-thin"
+                  d="M101 76 Q125 55 165 53 Q205 55 229 76"/>
+
+            <path class="bone-thin"
+                  d="M91 106 Q110 82 132 80"/>
+
+            <path class="bone-thin"
+                  d="M239 106 Q220 82 198 80"/>
+
+            <!-- GLASS / EYES -->
+            <path id="eyes"
+                  class="eye"
+                  d="M79 102 Q100 86 130 88 Q155 91 165 100 Q175 91 200 88 Q230 86 251 102 Q258 118 242 133 Q220 140 200 128 Q182 117 165 109 Q148 117 130 128 Q110 140 88 133 Q72 118 79 102 Z"/>
+
+            <path d="M90 100 Q112 90 132 96"
+                  stroke="#202500"
+                  stroke-width="1.5"
+                  fill="none"/>
+
+            <path d="M240 100 Q218 90 198 96"
+                  stroke="#202500"
+                  stroke-width="2.5"
+                  fill="none"/>
+
+            <path class="bone-thin"
+                  d="M142 102 L148 139 M188 122 L182 139"/>
+
+            <path d="M164.3 121 L165.7 121 L165.7 131 C162.7 131 160.5 133.3 160.5 136.3 L159 140.8 C156.8 143 153 144.5 152.2 147.5 C151.5 149 153.8 149.8 165 149.8 C176.2 149.8 178.5 149 177.8 147.5 C177 144.5 173.2 143 171 140.8 L169.5 136.3 C169.5 133.3 167.3 131 164.3 131 Z"
+                  fill="#f5f5f5"
+                  stroke="#fff"
+                  stroke-width="2"/>
 
             <!-- UPPER JAW -->
-            <g class="upper-jaw">
-                <path class="skull-base" d="M83 168 Q90 195 105 216 L135 220 Q165 226 195 220 L225 216
-                Q240 195 247 168 Q205 180 165 180 Q125 180 83 168 Z"/>
-                <g class="upper-teeth">
-                    <path class="tooth" d="M102 168 L111 171 L111 187 L103 185 Z"/>
-                    <path class="tooth" d="M113 171 L123 174 L123 189 L114 187 Z"/>
-                    <path class="tooth" d="M125 174 L135 176 L135 191 L126 189 Z"/>
-                    <path class="tooth" d="M137 176 L148 178 L148 193 L138 192 Z"/>
-                    <path class="tooth" d="M150 178 L160 179 L160 194 L151 194 Z"/>
-                    <path class="tooth" d="M170 179 L180 178 L180 194 L171 194 Z"/>
-                    <path class="tooth" d="M182 178 L193 176 L193 193 L183 192 Z"/>
-                    <path class="tooth" d="M195 176 L205 174 L205 191 L196 189 Z"/>
-                    <path class="tooth" d="M207 174 L217 171 L217 189 L208 187 Z"/>
-                    <path class="tooth" d="M219 171 L228 168 L227 185 L220 185 Z"/>
-                </g>
+            <g>
+
+                <path class="skull-base"
+                      d="M83 168 Q90 195 105 216 L135 220 Q165 226 195 220 L225 216 Q240 195 247 168 Q205 180 165 180 Q125 180 83 168 Z"/>
+
+                <path class="tooth" d="M102 168 L111 171 L111 187 L103 185 Z"/>
+                <path class="tooth" d="M113 171 L123 174 L123 189 L114 187 Z"/>
+                <path class="tooth" d="M125 174 L135 176 L135 191 L126 189 Z"/>
+                <path class="tooth" d="M137 176 L148 178 L148 193 L138 192 Z"/>
+                <path class="tooth" d="M150 178 L160 179 L160 194 L151 194 Z"/>
+
+                <path class="tooth" d="M170 179 L180 178 L180 194 L171 194 Z"/>
+                <path class="tooth" d="M182 178 L193 176 L193 193 L183 192 Z"/>
+                <path class="tooth" d="M195 176 L205 174 L205 191 L196 189 Z"/>
+                <path class="tooth" d="M207 174 L217 171 L217 189 L208 187 Z"/>
+                <path class="tooth" d="M219 171 L228 168 L227 185 L220 185 Z"/>
+
             </g>
 
-            <!-- LOWER JAW -->
+            <!-- LOWER MOVING JAW -->
             <g class="lower-jaw">
-                <path class="skull-base" d="M95 188 Q100 222 130 236 Q165 247 200 236
-                Q230 222 235 188 Q200 204 165 204 Q130 204 95 188 Z"/>
-                <g class="lower-teeth">
-                    <path class="tooth" d="M104 188 L113 190 L113 204 L105 202 Z"/>
-                    <path class="tooth" d="M115 191 L124 193 L124 207 L116 205 Z"/>
-                    <path class="tooth" d="M126 193 L136 195 L136 209 L127 208 Z"/>
-                    <path class="tooth" d="M138 195 L148 196 L148 210 L139 209 Z"/>
-                    <path class="tooth" d="M150 196 L160 197 L160 211 L151 211 Z"/>
-                    <path class="tooth" d="M170 197 L180 196 L180 211 L171 211 Z"/>
-                    <path class="tooth" d="M182 196 L192 195 L192 210 L183 209 Z"/>
-                    <path class="tooth" d="M194 195 L204 193 L204 209 L195 208 Z"/>
-                    <path class="tooth" d="M206 193 L215 191 L215 207 L207 205 Z"/>
-                    <path class="tooth" d="M217 190 L226 188 L225 204 L218 202 Z"/>
-                </g>
-                <path class="bone-thin" d="M102 208 Q165 232 228 208"/>
+
+                <path class="skull-base"
+                      d="M95 188 Q100 222 130 236 Q165 247 200 236 Q230 222 235 188 Q200 204 165 204 Q130 204 95 188 Z"/>
+
+                <path class="tooth" d="M104 188 L113 190 L113 204 L105 202 Z"/>
+                <path class="tooth" d="M115 191 L124 193 L124 207 L116 205 Z"/>
+                <path class="tooth" d="M126 193 L136 195 L136 209 L127 208 Z"/>
+                <path class="tooth" d="M138 195 L148 196 L148 210 L139 209 Z"/>
+                <path class="tooth" d="M150 196 L160 197 L160 211 L151 211 Z"/>
+
+                <path class="tooth" d="M170 197 L180 196 L180 211 L171 211 Z"/>
+                <path class="tooth" d="M182 196 L192 195 L192 210 L183 209 Z"/>
+                <path class="tooth" d="M194 195 L204 193 L204 209 L195 208 Z"/>
+                <path class="tooth" d="M206 193 L215 191 L215 207 L207 205 Z"/>
+                <path class="tooth" d="M217 190 L226 188 L225 204 L218 202 Z"/>
+
+                <path class="bone-thin"
+                      d="M102 208 Q165 232 228 208"/>
+
             </g>
+
         </svg>
+
     </div>
 
-    <div class="network">HACKERS NETWORK</div>
+    <div class="network">
+        HACKERS NETWORK
+    </div>
 
-    <form class="login-form" onsubmit="login(event)">
+    <form class="login-form"
+          id="login-form">
+
         <div class="input-box">
-            <input id="username" type="text" placeholder="USERNAME..." autocomplete="username">
+
+            <input id="username"
+                   type="text"
+                   placeholder="USERNAME..."
+                   autocomplete="username">
+
         </div>
+
         <div class="password-container">
+
             <div class="input-box">
-                <input id="password" type="password" placeholder="PASSWORD..." autocomplete="current-password">
+
+                <input id="password"
+                       type="password"
+                       placeholder="PASSWORD..."
+                       autocomplete="current-password">
+
             </div>
-            <button class="login-button" type="submit" aria-label="Login">
+
+            <button class="login-button"
+                    type="submit"
+                    aria-label="Login">
+
                 <span class="lock"></span>
+
             </button>
+
         </div>
+
     </form>
 
-    <div class="footer"><div>SECURE ACCESS SYSTEM</div><div>Developed by Akshat</div>
+    <div class="footer">
+
+        <div>SECURE ACCESS SYSTEM</div>
+
+        <div>Developed by Akshat</div>
+
     </div>
+
+    <!-- DENIED -->
+    <div id="terminal"
+         class="terminal-overlay"></div>
+
 </div>
 
-<script>
-function login(event){
-    event.preventDefault();
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value;
-    if(!username || !password){
-        alert("Please enter username and password.");
+</div><!-- =========================
+     BOOT SCREEN
+========================= --><div id="boot-screen"><div class="boot-terminal">
+
+    <div id="boot-output"></div>
+
+    <span class="boot-cursor"></span>
+
+</div>
+
+</div><!-- =========================
+     MAINFRAME
+========================= --><div id="hacker-dashboard"><div class="main-shell">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+
+        <div class="system-title">
+
+            ⚡ BRAIN MAINFRAME
+
+            <small>
+                NEURAL COMMAND OPERATING SYSTEM // v2.6.0
+            </small>
+
+        </div>
+
+        <div class="top-info">
+
+            <div class="live-dot"></div>
+
+            <span>SECURE_LINK</span>
+
+            <span id="clock">--:--:--</span>
+
+        </div>
+
+    </header>
+
+    <!-- GRID -->
+    <div class="dashboard-grid">
+
+        <!-- LEFT -->
+        <aside class="left-column">
+
+            <section class="panel">
+
+                <div class="panel-header">
+
+                    NETWORK NODES
+
+                    <span>05/05 ONLINE</span>
+
+                </div>
+
+                <div class="node-list">
+
+                    <div class="node active"
+                         data-node="CORE_01">
+
+                        <div class="node-name">
+
+                            <span class="indicator"></span>
+
+                            CORE_01
+
+                        </div>
+
+                        <div class="node-status">
+                            MAINFRAME // CONNECTED
+                        </div>
+
+                    </div>
+
+                    <div class="node"
+                         data-node="NODE_DEL_07">
+
+                        <div class="node-name">
+
+                            <span class="indicator"></span>
+
+                            NODE_DEL_07
+
+                        </div>
+
+                        <div class="node-status">
+                            REGIONAL RELAY // ACTIVE
+                        </div>
+
+                    </div>
+
+                    <div class="node"
+                         data-node="NODE_EU_12">
+
+                        <div class="node-name">
+
+                            <span class="indicator"></span>
+
+                            NODE_EU_12
+
+                        </div>
+
+                        <div class="node-status">
+                            GLOBAL RELAY // ACTIVE
+                        </div>
+
+                    </div>
+
+                    <div class="node"
+                         data-node="ORBITAL_03">
+
+                        <div class="node-name">
+
+                            <span class="indicator"></span>
+
+                            ORBITAL_03
+
+                        </div>
+
+                        <div class="node-status">
+                            SIMULATION LINKED
+                        </div>
+
+                    </div>
+
+                    <div class="node"
+                         data-node="ARCHIVE_X">
+
+                        <div class="node-name">
+
+                            <span class="indicator"></span>
+
+                            ARCHIVE_X
+
+                        </div>
+
+                        <div class="node-status">
+                            DATA ENCRYPTED
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="panel">
+
+                <div class="panel-header">
+
+                    SYSTEM LOAD
+
+                    <span id="load-status">
+                        OPTIMAL
+                    </span>
+
+                </div>
+
+                <div class="system-meters">
+
+                    <div class="meter">
+
+                        <div class="meter-head">
+
+                            <span>CPU CORE</span>
+
+                            <span id="cpu-value">
+                                42%
+                            </span>
+
+                        </div>
+
+                        <div class="meter-bar">
+
+                            <div id="cpu-bar"
+                                 class="meter-fill"></div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="meter">
+
+                        <div class="meter-head">
+
+                            <span>MEMORY</span>
+
+                            <span id="ram-value">
+                                61%
+                            </span>
+
+                        </div>
+
+                        <div class="meter-bar">
+
+                            <div id="ram-bar"
+                                 class="meter-fill"></div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="meter">
+
+                        <div class="meter-head">
+
+                            <span>NETWORK</span>
+
+                            <span id="net-value">
+                                88%
+                            </span>
+
+                        </div>
+
+                        <div class="meter-bar">
+
+                            <div id="net-bar"
+                                 class="meter-fill"></div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="meter">
+
+                        <div class="meter-head">
+
+                            <span>POWER</span>
+
+                            <span id="power-value">
+                                97%
+                            </span>
+
+                        </div>
+
+                        <div class="meter-bar">
+
+                            <div id="power-bar"
+                                 class="meter-fill"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </aside>
+
+        <!-- CENTER -->
+        <main class="panel center-column">
+
+            <div class="panel-header">
+
+                GLOBAL NETWORK MAP
+
+                <span>LIVE TOPOLOGY</span>
+
+            </div>
+
+            <div class="network-map">
+
+                <svg class="network-lines"
+                     viewBox="0 0 1000 400"
+                     preserveAspectRatio="none">
+
+                    <line x1="500"
+                          y1="200"
+                          x2="120"
+                          y2="100"
+                          stroke="rgba(0,255,136,.35)"
+                          stroke-width="2"/>
+
+                    <line x1="500"
+                          y1="200"
+                          x2="840"
+                          y2="85"
+                          stroke="rgba(0,255,136,.35)"
+                          stroke-width="2"/>
+
+                    <line x1="500"
+                          y1="200"
+                          x2="160"
+                          y2="310"
+                          stroke="rgba(0,255,136,.35)"
+                          stroke-width="2"/>
+
+                    <line x1="500"
+                          y1="200"
+                          x2="790"
+                          y2="320"
+                          stroke="rgba(0,255,136,.35)"
+                          stroke-width="2"/>
+
+                </svg>
+
+                <div class="map-node main"
+                     data-label="BRAIN_CORE"
+                     style="left:49%;top:45%"></div>
+
+                <div class="map-node"
+                     data-label="NODE_ALPHA"
+                     style="left:12%;top:23%"></div>
+
+                <div class="map-node"
+                     data-label="NODE_BRAVO"
+                     style="left:84%;top:19%"></div>
+
+                <div class="map-node"
+                     data-label="NODE_CHARLIE"
+                     style="left:16%;top:75%"></div>
+
+                <div class="map-node"
+                     data-label="NODE_DELTA"
+                     style="left:79%;top:77%"></div>
+
+            </div>
+
+            <section class="console-section">
+
+                <div class="panel-header">
+
+                    COMMAND CONSOLE
+
+                    <span>
+                        TYPE: HELP
+                    </span>
+
+                </div>
+
+                <div id="console-screen"></div>
+
+                <div class="command-row">
+
+                    <span class="command-prefix">
+                        operator@brain:~$
+                    </span>
+
+                    <input id="command-input"
+                           type="text"
+                           placeholder="enter command..."
+                           autocomplete="off"
+                           spellcheck="false">
+
+                </div>
+
+            </section>
+
+        </main>
+
+        <!-- RIGHT -->
+        <aside class="right-column">
+
+            <section class="panel">
+
+                <div class="panel-header">
+
+                    GLOBAL LINK
+
+                    <span>LIVE</span>
+
+                </div>
+
+                <div class="globe-box">
+
+                    <div class="globe">
+
+                        <div class="globe-grid"></div>
+
+                        <div class="globe-text">
+
+                            GLOBAL<br>
+                            NODE
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="panel">
+
+                <div class="panel-header">
+
+                    ACTIVITY STREAM
+
+                    <span id="event-count">
+                        00
+                    </span>
+
+                </div>
+
+                <div id="activity-log"
+                     class="activity-log"></div>
+
+            </section>
+
+        </aside>
+
+    </div>
+
+    <!-- BOTTOM -->
+    <footer class="bottom-bar">
+
+        <span class="online">
+            ● ENCRYPTED LOCAL SESSION
+        </span>
+
+        <span>
+
+            OPERATOR:
+
+            <span id="operator-name"
+                  class="key">
+
+                GUEST
+
+            </span>
+
+        </span>
+
+        <span>
+
+            SYSTEM:
+
+            <span class="key">
+                STABLE
+            </span>
+
+        </span>
+
+    </footer>
+
+</div>
+
+</div><div id="toast">
+    SYSTEM MESSAGE
+</div><script>
+"use strict";
+
+/* =========================
+   DENIED LOGS
+========================= */
+
+const deniedLogs = [
+    "AUTHENTICATING CREDENTIALS...",
+    "CHECKING DATABASE...",
+    "ERROR: INVALID USERNAME OR PASSWORD!",
+    "UNAUTHORIZED ACCESS DETECTED!",
+    "TRACING SESSION...",
+    "SYSTEM LOCKED DOWN!"
+];
+
+/* =========================
+   MATRIX
+========================= */
+
+const canvas =
+    document.getElementById("matrix-canvas");
+
+const ctx =
+    canvas.getContext("2d");
+
+let matrixFontSize = 14;
+let matrixDrops = [];
+let matrixAnimation;
+
+const matrixChars =
+    "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+function resizeMatrix(){
+
+    canvas.width =
+        window.innerWidth;
+
+    canvas.height =
+        window.innerHeight;
+
+    const columns =
+        Math.floor(
+            canvas.width /
+            matrixFontSize
+        );
+
+    matrixDrops =
+        Array.from(
+            {length:columns},
+            () =>
+                Math.floor(
+                    Math.random() *
+                    canvas.height /
+                    matrixFontSize
+                )
+        );
+}
+
+function drawMatrix(){
+
+    ctx.fillStyle =
+        "rgba(0,0,0,.07)";
+
+    ctx.fillRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    ctx.fillStyle =
+        "#00ff88";
+
+    ctx.font =
+        matrixFontSize +
+        "px monospace";
+
+    for(
+        let i = 0;
+        i < matrixDrops.length;
+        i++
+    ){
+
+        const char =
+            matrixChars[
+                Math.floor(
+                    Math.random() *
+                    matrixChars.length
+                )
+            ];
+
+        ctx.fillText(
+            char,
+            i * matrixFontSize,
+            matrixDrops[i] *
+            matrixFontSize
+        );
+
+        if(
+            matrixDrops[i] *
+            matrixFontSize >
+            canvas.height &&
+            Math.random() > .975
+        ){
+
+            matrixDrops[i] = 0;
+        }
+
+        matrixDrops[i]++;
+    }
+
+    matrixAnimation =
+        requestAnimationFrame(
+            drawMatrix
+        );
+}
+
+resizeMatrix();
+
+/* =========================
+   DOM
+========================= */
+
+const loginForm =
+    document.getElementById(
+        "login-form"
+    );
+
+const loginScreen =
+    document.getElementById(
+        "login-screen"
+    );
+
+const loginCard =
+    document.getElementById(
+        "loginCard"
+    );
+
+const bootScreen =
+    document.getElementById(
+        "boot-screen"
+    );
+
+const bootOutput =
+    document.getElementById(
+        "boot-output"
+    );
+
+const dashboard =
+    document.getElementById(
+        "hacker-dashboard"
+    );
+
+const terminal =
+    document.getElementById(
+        "terminal"
+    );
+
+const commandInput =
+    document.getElementById(
+        "command-input"
+    );
+
+const consoleScreen =
+    document.getElementById(
+        "console-screen"
+    );
+
+const activityLog =
+    document.getElementById(
+        "activity-log"
+    );
+
+const operatorName =
+    document.getElementById(
+        "operator-name"
+    );
+
+const toast =
+    document.getElementById(
+        "toast"
+    );
+
+/* =========================
+   SKULL COLORS
+========================= */
+
+function setSkullRed(){
+
+    document
+        .getElementById("eyes")
+        .style.fill =
+            "#ff2222";
+
+    document
+        .getElementById("eyes")
+        .style.filter =
+            "drop-shadow(0 0 6px #ff0000) " +
+            "drop-shadow(0 0 14px #ff0000)";
+
+    document
+        .getElementById("topLight")
+        .style.background =
+            "#ff2222";
+
+    document
+        .getElementById("topLight")
+        .style.boxShadow =
+            "0 0 10px #ff2222," +
+            "0 0 20px rgba(255,34,34,.8)";
+
+    document
+        .getElementById("glow1")
+        .setAttribute(
+            "stop-color",
+            "#ff0000"
+        );
+
+    document
+        .getElementById("glow2")
+        .setAttribute(
+            "stop-color",
+            "#ff0000"
+        );
+
+    loginCard.classList.add(
+        "denied"
+    );
+}
+
+function setSkullGreen(){
+
+    document
+        .getElementById("eyes")
+        .style.fill =
+            "#baff00";
+
+    document
+        .getElementById("eyes")
+        .style.filter =
+            "drop-shadow(0 0 4px #baff00) " +
+            "drop-shadow(0 0 10px #baff00)";
+
+    document
+        .getElementById("topLight")
+        .style.background =
+            "#baff00";
+
+    document
+        .getElementById("topLight")
+        .style.boxShadow =
+            "0 0 10px #baff00," +
+            "0 0 20px rgba(186,255,0,.8)";
+
+    document
+        .getElementById("glow1")
+        .setAttribute(
+            "stop-color",
+            "#9aff2a"
+        );
+
+    document
+        .getElementById("glow2")
+        .setAttribute(
+            "stop-color",
+            "#9aff2a"
+        );
+
+    loginCard.classList.remove(
+        "denied"
+    );
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+loginForm.addEventListener(
+    "submit",
+    function(event){
+
+        event.preventDefault();
+
+        const username =
+            document
+            .getElementById("username")
+            .value
+            .trim();
+
+        const password =
+            document
+            .getElementById("password")
+            .value;
+
+        if(!username || !password){
+
+            deniedAccess();
+
+            return;
+        }
+
+        operatorName.textContent =
+            username
+            .toUpperCase()
+            .replace(
+                /[^A-Z0-9_-]/g,
+                ""
+            )
+            .slice(0,16)
+            || "OPERATOR";
+
+        loginScreen.style.display =
+            "none";
+
+        bootScreen.style.display =
+            "flex";
+
+        runBootSequence();
+    }
+);
+
+/* =========================
+   DENIED
+========================= */
+
+function deniedAccess(){
+
+    setSkullRed();
+
+    terminal.style.display =
+        "flex";
+
+    terminal.innerHTML = "";
+
+    let delay = 0;
+
+    deniedLogs.forEach(log => {
+
+        setTimeout(
+            () => {
+
+                const p =
+                    document
+                    .createElement("p");
+
+                p.textContent =
+                    "> " + log;
+
+                terminal.appendChild(p);
+
+                terminal.scrollTop =
+                    terminal.scrollHeight;
+
+            },
+            delay
+        );
+
+        delay += 350;
+    });
+
+    setTimeout(
+        () => {
+
+            const status =
+                document
+                .createElement("div");
+
+            status.className =
+                "status-denied";
+
+            status.textContent =
+                "ACCESS DENIED / SYSTEM LOCKED";
+
+            terminal.appendChild(
+                status
+            );
+
+            const button =
+                document
+                .createElement("button");
+
+            button.className =
+                "close-btn";
+
+            button.textContent =
+                "TRY AGAIN";
+
+            button.onclick =
+                function(){
+
+                    terminal.style.display =
+                        "none";
+
+                    setSkullGreen();
+
+                    document
+                        .getElementById(
+                            "password"
+                        )
+                        .focus();
+                };
+
+            terminal.appendChild(
+                button
+            );
+
+        },
+        delay + 200
+    );
+}
+
+/* =========================
+   BOOT
+========================= */
+
+const bootLines = [
+
+    "[BRAIN_OS] Initializing neural mainframe...",
+
+    "[CHECK] Hardware interface .............. OK",
+
+    "[CHECK] Memory integrity ................ OK",
+
+    "[CHECK] Network topology ................ ONLINE",
+
+    "[CHECK] Encryption layer ................ ACTIVE",
+
+    "[CHECK] Global relay nodes .............. CONNECTED",
+
+    "[CHECK] Command environment ............. READY",
+
+    "",
+
+    ">> OPERATOR AUTHENTICATED",
+
+    ">> SESSION ESTABLISHED",
+
+    ">> WELCOME TO BRAIN MAINFRAME"
+
+];
+
+async function runBootSequence(){
+
+    bootOutput.textContent = "";
+
+    for(const line of bootLines){
+
+        await typeText(
+            line,
+            line.includes("WELCOME")
+                ? 18
+                : 6
+        );
+
+        bootOutput.textContent +=
+            "\n";
+
+        await wait(50);
+    }
+
+    await wait(500);
+
+    bootScreen.style.display =
+        "none";
+
+    dashboard.style.display =
+        "block";
+
+    canvas.style.display =
+        "block";
+
+    drawMatrix();
+
+    initializeMainframe();
+}
+
+async function typeText(
+    text,
+    speed
+){
+
+    for(const char of text){
+
+        bootOutput.textContent +=
+            char;
+
+        await wait(speed);
+    }
+}
+
+function wait(ms){
+
+    return new Promise(
+        resolve =>
+            setTimeout(resolve,ms)
+    );
+}
+
+/* =========================
+   MAINFRAME
+========================= */
+
+let initialized = false;
+
+function initializeMainframe(){
+
+    if(initialized){
+
+        commandInput.focus();
+
         return;
     }
-    alert("Access Granted for: " + username);
-}
-</script>
 
-</body>
+    initialized = true;
+
+    printConsole(
+        "BRAIN MAINFRAME TERMINAL v2.6.0",
+        "console-success"
+    );
+
+    printConsole(
+        "Interactive cinematic system simulation active.",
+        "console-dim"
+    );
+
+    printConsole(
+        "Type HELP to display commands.",
+        "console-success"
+    );
+
+    printConsole(
+        "Session operator: " +
+        operatorName.textContent,
+        "console-success"
+    );
+
+    addActivity(
+        "Operator session established"
+    );
+
+    addActivity(
+        "Command interface online"
+    );
+
+    addActivity(
+        "Global relay heartbeat received"
+    );
+
+    startMetrics();
+
+    startClock();
+
+    setInterval(
+        randomActivity,
+        4000
+    );
+
+    commandInput.focus();
+
+    document
+        .querySelectorAll(".node")
+        .forEach(
+            node => {
+
+                node.addEventListener(
+                    "click",
+                    function(){
+
+                        document
+                            .querySelectorAll(
+                                ".node"
+                            )
+                            .forEach(
+                                n =>
+                                    n.classList
+                                    .remove(
+                                        "active"
+                                    )
+                            );
+
+                        node.classList.add(
+                            "active"
+                        );
+
+                        printConsole(
+                            "NETWORK NODE SELECTED: " +
+                            node.dataset.node,
+                            "console-success"
+                        );
+
+                        addActivity(
+                            "Node selected: " +
+                            node.dataset.node
+                        );
+                    }
+                );
+            }
+        );
+}
+
+/* =========================
+   CONSOLE
+========================= */
+
+function printConsole(
+    text,
+    className = ""
+){
+
+    const line =
+        document.createElement("div");
+
+    line.className =
+        "console-line " +
+        className;
+
+    line.textContent =
+        text;
+
+    consoleScreen.appendChild(
+        line
+    );
+
+    consoleScreen.scrollTop =
+        consoleScreen.scrollHeight;
+}
+
+commandInput.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key !== "Enter")
+            return;
+
+        const command =
+            commandInput.value.trim();
+
+        if(!command)
+            return;
+
+        printConsole(
+            "operator@brain:~$ " +
+            command,
+            "console-success"
+        );
+
+        executeCommand(command);
+
+        commandInput.value = "";
+    }
+);
+
+function executeCommand(raw){
+
+    const command =
+        raw.toLowerCase().trim();
+
+    if(command === "help"){
+
+        [
+            "AVAILABLE COMMANDS:",
+            "help    - show commands",
+            "status  - system status",
+            "scan    - simulated node scan",
+            "nodes   - list active nodes",
+            "clear   - clear console",
+            "about   - system information",
+            "time    - display time",
+            "matrix  - change matrix intensity",
+            "breach  - cinematic visual alert",
+            "reboot  - restart session"
+        ]
+        .forEach(
+            text =>
+                printConsole(
+                    text,
+                    "console-success"
+                )
+        );
+
+        return;
+    }
+
+    if(command === "status"){
+
+        printConsole(
+            "SYSTEM STATUS: STABLE",
+            "console-success"
+        );
+
+        printConsole(
+            "SECURITY MODE: LOCAL SIMULATION",
+            "console-dim"
+        );
+
+        printConsole(
+            "ALL PRIMARY NODES: ACTIVE",
+            "console-success"
+        );
+
+        return;
+    }
+
+    if(command === "nodes"){
+
+        [
+            "CORE_01 ........ ONLINE",
+            "NODE_DEL_07 .... ONLINE",
+            "NODE_EU_12 ..... ONLINE",
+            "ORBITAL_03 ..... LINKED",
+            "ARCHIVE_X ...... ENCRYPTED"
+        ]
+        .forEach(
+            text =>
+                printConsole(
+                    text,
+                    "console-success"
+                )
+        );
+
+        return;
+    }
+
+    if(command === "scan"){
+
+        runScan();
+
+        return;
+    }
+
+    if(command === "clear"){
+
+        consoleScreen.textContent =
+            "";
+
+        return;
+    }
+
+    if(command === "about"){
+
+        printConsole(
+            "BRAIN MAINFRAME OS v2.6.0",
+            "console-success"
+        );
+
+        printConsole(
+            "Cinematic interactive hacker-style UI.",
+            ""
+        );
+
+        printConsole(
+            "This is a local visual simulation.",
+            "console-dim"
+        );
+
+        return;
+    }
+
+    if(command === "time"){
+
+        printConsole(
+            new Date()
+            .toLocaleString(),
+            "console-success"
+        );
+
+        return;
+    }
+
+    if(command === "matrix"){
+
+        toggleMatrix();
+
+        return;
+    }
+
+    if(command === "breach"){
+
+        triggerBreach();
+
+        return;
+    }
+
+    if(command === "reboot"){
+
+        rebootSystem();
+
+        return;
+    }
+
+    printConsole(
+        "COMMAND NOT FOUND: " +
+        raw,
+        "console-error"
+    );
+
+    printConsole(
+        "Type HELP for commands.",
+        "console-dim"
+    );
+}
+
+/* =========================
+   SCAN
+========================= */
+
+async function runScan(){
+
+    printConsole(
+        "INITIALIZING SIMULATED NODE SCAN...",
+        "console-warn"
+    );
+
+    const nodes = [
+        "CORE_01",
+        "NODE_DEL_07",
+        "NODE_EU_12",
+        "ORBITAL_03",
+        "ARCHIVE_X"
+    ];
+
+    for(const node of nodes){
+
+        await wait(300);
+
+        printConsole(
+            "SCAN > " +
+            node +
+            " > RESPONSE ACTIVE",
+            "console-success"
+        );
+    }
+
+    printConsole(
+        "SCAN COMPLETE // 5 NODES RESPONDING",
+        "console-success"
+    );
+
+    addActivity(
+        "Simulated network scan completed"
+    );
+}
+
+/* =========================
+   METERS
+========================= */
+
+const meters = [
+    ["cpu",25,74],
+    ["ram",42,88],
+    ["net",70,99],
+    ["power",89,100]
+];
+
+function startMetrics(){
+
+    updateMetrics();
+
+    setInterval(
+        updateMetrics,
+        1800
+    );
+}
+
+function updateMetrics(){
+
+    meters.forEach(
+        meter => {
+
+            const [
+                name,
+                min,
+                max
+            ] = meter;
+
+            const value =
+                Math.floor(
+                    min +
+                    Math.random() *
+                    (max-min)
+                );
+
+            document
+                .getElementById(
+                    name + "-value"
+                )
+                .textContent =
+                    value + "%";
+
+            document
+                .getElementById(
+                    name + "-bar"
+                )
+                .style.width =
+                    value + "%";
+        }
+    );
+
+    const cpu =
+        parseInt(
+            document
+            .getElementById(
+                "cpu-value"
+            )
+            .textContent
+        );
+
+    document
+        .getElementById(
+            "load-status"
+        )
+        .textContent =
+            cpu > 65
+                ? "ELEVATED"
+                : "OPTIMAL";
+}
+
+/* =========================
+   CLOCK
+========================= */
+
+function startClock(){
+
+    function update(){
+
+        document
+            .getElementById("clock")
+            .textContent =
+                new Date()
+                .toLocaleTimeString(
+                    [],
+                    {
+                        hour12:false
+                    }
+                );
+    }
+
+    update();
+
+    setInterval(update,1000);
+}
+
+/* =========================
+   ACTIVITY
+========================= */
+
+let activityCount = 0;
+
+function addActivity(text){
+
+    activityCount++;
+
+    const entry =
+        document.createElement("div");
+
+    entry.className =
+        "activity-entry";
+
+    const time =
+        document.createElement("span");
+
+    time.className =
+        "activity-time";
+
+    time.textContent =
+        "[" +
+        new Date()
+        .toLocaleTimeString(
+            [],
+            {
+                hour12:false
+            }
+        ) +
+        "] ";
+
+    entry.appendChild(time);
+
+    entry.appendChild(
+        document.createTextNode(
+            text
+        )
+    );
+
+    activityLog.prepend(entry);
+
+    document
+        .getElementById(
+            "event-count"
+        )
+        .textContent =
+            String(
+                activityCount
+            )
+            .padStart(2,"0");
+
+    while(
+        activityLog.children.length > 30
+    ){
+
+        activityLog.removeChild(
+            activityLog.lastChild
+        );
+    }
+}
+
+const randomEvents = [
+    "Telemetry packet synchronized",
+    "Node latency recalculated",
+    "Encryption handshake renewed",
+    "Archive integrity check passed",
+    "Global relay heartbeat received",
+    "Neural interface stable",
+    "Background diagnostic complete",
+    "Secure channel verified"
+];
+
+function randomActivity(){
+
+    const text =
+        randomEvents[
+            Math.floor(
+                Math.random() *
+                randomEvents.length
+            )
+        ];
+
+    addActivity(text);
+}
+
+/* =========================
+   MATRIX
+========================= */
+
+let brightMatrix = false;
+
+function toggleMatrix(){
+
+    brightMatrix =
+        !brightMatrix;
+
+    canvas.style.opacity =
+        brightMatrix
+            ? ".45"
+            : ".18";
+
+    printConsole(
+        brightMatrix
+            ? "MATRIX SIGNAL AMPLIFIED"
+            : "MATRIX SIGNAL NORMALIZED",
+        "console-success"
+    );
+}
+
+/* =========================
+   BREACH
+========================= */
+
+function triggerBreach(){
+
+    printConsole(
+        "⚠ CINEMATIC BREACH ALERT ACTIVATED",
+        "console-error"
+    );
+
+    addActivity(
+        "Visual breach simulation triggered"
+    );
+
+    dashboard.classList.add(
+        "shake-effect"
+    );
+
+    let count = 0;
+
+    const interval =
+        setInterval(
+            () => {
+
+                let binary = "";
+
+                for(
+                    let i = 0;
+                    i < 55;
+                    i++
+                ){
+
+                    binary +=
+                        Math.round(
+                            Math.random()
+                        );
+                }
+
+                printConsole(
+                    "⚠ SIGNAL " +
+                    binary,
+                    "console-error"
+                );
+
+                count++;
+
+                if(count > 6){
+
+                    clearInterval(
+                        interval
+                    );
+
+                    dashboard.classList.remove(
+                        "shake-effect"
+                    );
+
+                    printConsole(
+                        "SIMULATION COMPLETE // SYSTEM STABLE",
+                        "console-success"
+                    );
+                }
+            },
+            180
+        );
+}
+
+/* =========================
+   REBOOT
+========================= */
+
+function rebootSystem(){
+
+    showToast(
+        "RESTARTING BRAIN MAINFRAME..."
+    );
+
+    dashboard.style.display =
+        "none";
+
+    cancelAnimationFrame(
+        matrixAnimation
+    );
+
+    bootScreen.style.display =
+        "flex";
+
+    runBootSequence();
+}
+
+/* =========================
+   TOAST
+========================= */
+
+let toastTimer;
+
+function showToast(text){
+
+    toast.textContent =
+        text;
+
+    toast.classList.add(
+        "show"
+    );
+
+    clearTimeout(
+        toastTimer
+    );
+
+    toastTimer =
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            2200
+        );
+}
+
+/* =========================
+   RESIZE
+========================= */
+
+window.addEventListener(
+    "resize",
+    resizeMatrix
+);
+</script></body>
 </html>
